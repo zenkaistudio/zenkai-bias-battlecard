@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZENKAI Bias Battlecard — March 23, 2026</title>
+<!-- TradingView library loaded FIRST — required for TradingView.widget() constructor -->
+<script src="https://s3.tradingview.com/tv.js"></script>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:     #07070e; --bg2: #0a0a16; --bg3: #0d0d1e;
+  --brd:    #1a1a30; --brd2: #131325;
+  --text:   #e2e8f0; --muted: #94a3b8; --dim: #4b5563;
+  --green:  #00c853; --green2: #4ade80;
+  --red:    #ff1744; --red2: #ff6b6b;
+  --gold:   #ffd700; --purple: #a5b4fc; --purple2: #6366f1;
+  --blue:   #60a5fa; --yellow: #fbbf24;
+}
+body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif; font-size:14px; line-height:1.5; }
+
+/* ── MASTHEAD ── */
+.mast { background:linear-gradient(135deg,#0b0b22,#0d0d26); border-bottom:1px solid #1e1e40; padding:18px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.mast-brand { display:flex; align-items:center; gap:14px; }
+.brand-mark { width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,#4f46e5,#2563eb); display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:900; color:#fff; flex-shrink:0; }
+.brand-text h1 { font-size:1.25rem; font-weight:800; background:linear-gradient(90deg,#f8fafc 55%,#818cf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.brand-text p { font-size:0.68rem; color:var(--dim); text-transform:uppercase; letter-spacing:0.6px; margin-top:3px; }
+.mast-badges { display:flex; gap:8px; flex-wrap:wrap; }
+.mb { padding:4px 12px; border-radius:20px; font-size:0.68rem; font-weight:600; }
+.mb-short { background:#1a040a; border:1px solid #4a0a18; color:var(--red2); }
+.mb-watch { background:#1a1203; border:1px solid #4a3005; color:var(--yellow); }
+.mb-news  { background:#070e1f; border:1px solid #1a2f5a; color:var(--blue); }
+.mb-live  { background:#030e09; border:1px solid #0a3020; color:var(--green2); animation:blink 2.4s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+/* ── NEWS STRIP ── */
+.news-strip { background:#080910; border-bottom:1px solid var(--brd2); padding:9px 28px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.ns-lbl { font-size:0.62rem; color:var(--dim); text-transform:uppercase; letter-spacing:1px; flex-shrink:0; }
+.ns-evt { display:flex; gap:8px; flex-wrap:wrap; }
+.nse { display:flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:0.66rem; }
+.nse-h { background:#120308; border:1px solid #3a0a14; color:#ff8080; }
+.nse-m { background:#120f03; border:1px solid #3a2a08; color:var(--yellow); }
+.nse-l { background:#04080f; border:1px solid #0f2030; color:var(--blue); }
+.nd { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.nd-h{background:var(--red);} .nd-m{background:var(--yellow);} .nd-l{background:var(--blue);}
+.ns-check { font-size:0.6rem; color:#374151; margin-left:auto; flex-shrink:0; }
+.ns-check a { color:var(--purple2); text-decoration:none; }
+.ns-check a:hover { text-decoration:underline; }
+
+/* ── PAIR WRAPPER ── */
+.pair-section { border-bottom:3px solid #0a0a18; }
+
+/* ── PAIR HEADER ── */
+.pair-hdr {
+  background:#090916; border-bottom:1px solid var(--brd2);
+  padding:14px 28px; cursor:pointer; user-select:none;
+  display:grid; grid-template-columns:auto 1fr auto;
+  align-items:center; gap:20px; transition:background 0.15s;
+}
+.pair-hdr:hover { background:#0c0c1d; }
+.ph-id { display:flex; align-items:baseline; gap:12px; }
+.ph-sym { font-size:1.35rem; font-weight:800; letter-spacing:0.3px; }
+.ph-sub { font-size:0.73rem; color:var(--dim); }
+.ph-px  { font-size:0.8rem; color:var(--muted); }
+.ph-px span { color:var(--text); font-weight:600; }
+
+/* Sentiment bar */
+.sent-wrap { display:flex; align-items:center; gap:10px; min-width:0; }
+.sent-bar-outer { flex:1; max-width:320px; min-width:100px; }
+.sent-track { height:15px; border-radius:8px; overflow:hidden; display:flex; background:#0f0f20; border:1px solid #1a1a35; }
+.sent-l { background:linear-gradient(90deg,#047857,#10b981); display:flex; align-items:center; justify-content:center; font-size:0.58rem; font-weight:700; color:rgba(255,255,255,0.9); }
+.sent-s { background:linear-gradient(90deg,#b91c1c,#ef4444); display:flex; align-items:center; justify-content:center; font-size:0.58rem; font-weight:700; color:rgba(255,255,255,0.9); }
+.sent-nums { display:flex; justify-content:space-between; margin-top:3px; }
+.sn-l { font-size:0.6rem; color:#10b981; font-weight:600; }
+.sn-s { font-size:0.6rem; color:#ef4444; font-weight:600; }
+.sent-pill { font-size:0.61rem; padding:2px 9px; border-radius:10px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px; }
+.sp-bear { background:#0f0408; border:1px solid #2a0810; color:#ff8080; }
+.sp-neut { background:#0a0a18; border:1px solid var(--brd); color:var(--dim); }
+.sp-bull { background:#030e06; border:1px solid #0a2a14; color:var(--green2); }
+
+.ph-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.stars span { font-size:0.9rem; }
+.s-on{color:var(--yellow);} .s-off{color:#1e2044;}
+.dir-pill { padding:5px 18px; border-radius:20px; font-size:0.74rem; font-weight:700; letter-spacing:0.8px; }
+.dp-short { background:var(--red); color:#fff; }
+.dp-watch { background:var(--yellow); color:#000; }
+.dp-avoid { background:#181825; color:var(--dim); border:1px solid #252535; }
+.chevron { color:var(--dim); font-size:0.82rem; transition:transform 0.2s; flex-shrink:0; }
+.is-open .chevron { transform:rotate(180deg); }
+
+/* ── PAIR BODY: 2-column grid ── */
+.pair-body {
+  display:none;
+  grid-template-columns: 1fr 375px;
+  min-height:460px;
+}
+.is-open .pair-body { display:grid; }
+
+/* LEFT: chart */
+.chart-col { border-right:1px solid var(--brd2); display:flex; flex-direction:column; background:var(--bg2); }
+.chart-top { padding:9px 16px; border-bottom:1px solid var(--brd2); background:#08081a; display:flex; align-items:center; gap:8px; }
+.chart-top-lbl { font-size:0.62rem; color:var(--dim); text-transform:uppercase; letter-spacing:0.8px; }
+.tv-box { flex:1; min-height:400px; position:relative; }
+.tv-loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:0.72rem; color:var(--dim); background:var(--bg2); pointer-events:none; transition:opacity 0.3s; z-index:1; }
+.smc-tags-bar { padding:8px 16px; border-top:1px solid var(--brd2); background:#08081a; display:flex; gap:6px; flex-wrap:wrap; }
+.stag { font-size:0.61rem; padding:3px 9px; border-radius:10px; font-weight:500; }
+.stag-bear { background:#0f0408; border:1px solid #2a0814; color:var(--red2); }
+.stag-bull { background:#030e06; border:1px solid #0a2a14; color:var(--green2); }
+.stag-warn { background:#120f02; border:1px solid #3a2c08; color:var(--yellow); }
+.stag-info { background:#080820; border:1px solid #18184a; color:var(--purple); }
+.stag-gray { background:#0d0d18; border:1px solid #1a1a28; color:var(--dim); }
+
+/* RIGHT: analysis */
+.analysis-col { background:var(--bg); display:flex; flex-direction:column; overflow:hidden; }
+
+.zone-block { padding:13px 18px; border-bottom:1px solid var(--brd2); }
+.zb-lbl { font-size:0.59rem; text-transform:uppercase; letter-spacing:1px; color:var(--dim); margin-bottom:8px; }
+.zi { padding:6px 10px; border-radius:6px; margin-bottom:3px; font-size:0.72rem; }
+.zi-supply { background:#0f0408; border-left:2px solid var(--red); color:var(--red2); }
+.zi-demand { background:#030e06; border-left:2px solid var(--green); color:var(--green2); }
+.zi-note { font-size:0.61rem; color:var(--dim); padding-left:10px; margin-bottom:4px; font-style:italic; }
+
+.setup-block { padding:13px 18px; border-bottom:1px solid var(--brd2); }
+.sb-lbl { font-size:0.59rem; text-transform:uppercase; letter-spacing:1px; color:var(--dim); margin-bottom:10px; }
+.setup-inner { display:flex; gap:14px; align-items:flex-start; }
+.lvl-list { flex:1; display:flex; flex-direction:column; gap:5px; }
+.lr { display:flex; justify-content:space-between; align-items:center; padding:6px 10px; border-radius:6px; font-size:0.71rem; }
+.lr-sl    { background:#0f0408; color:var(--red2); }
+.lr-entry { background:#080820; color:var(--purple); font-weight:600; }
+.lr-tp1   { background:#03100a; color:var(--green2); }
+.lr-tp2   { background:#021006; color:var(--green); font-weight:600; }
+.lr-lbl { font-size:0.57rem; color:var(--dim); text-transform:uppercase; letter-spacing:0.4px; }
+.lr-px  { font-weight:600; text-align:right; }
+
+.rr-strip { display:flex; gap:1px; background:var(--brd2); border-top:1px solid var(--brd2); }
+.rr-cell { flex:1; text-align:center; padding:8px 4px; background:var(--bg); }
+.rr-val { font-size:0.82rem; font-weight:700; }
+.rr-key { font-size:0.57rem; color:var(--dim); text-transform:uppercase; letter-spacing:0.4px; margin-top:2px; }
+.rv-g{color:var(--green2);} .rv-r{color:var(--red2);} .rv-y{color:var(--yellow);}
+
+.conf-block { padding:12px 18px; border-bottom:1px solid var(--brd2); }
+.cb-lbl { font-size:0.59rem; text-transform:uppercase; letter-spacing:1px; color:var(--dim); margin-bottom:6px; }
+.conf-body { font-size:0.71rem; color:#93c5fd; line-height:1.6; background:#04080f; border:1px solid #0e2035; border-left:3px solid #2563eb; border-radius:0 6px 6px 0; padding:9px 12px; }
+.inval-body { font-size:0.71rem; color:var(--dim); line-height:1.6; background:#0a0a14; border:1px dashed var(--brd); border-radius:6px; padding:9px 12px; }
+.inval-body span { color:var(--red2); }
+
+/* ── Session Analysis Block ── */
+.session-block { padding:13px 18px; border-bottom:1px solid var(--brd2); }
+.session-source { font-size:0.58rem; color:var(--purple2); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.session-source::before { content:'●'; color:var(--purple2); animation:blink 2s infinite; }
+.session-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:8px; }
+.sg-cell { background:#09091a; border:1px solid var(--brd2); border-radius:6px; padding:7px 10px; }
+.sg-label { font-size:0.58rem; text-transform:uppercase; letter-spacing:0.8px; color:var(--dim); margin-bottom:3px; }
+.sg-row { display:flex; justify-content:space-between; align-items:center; }
+.sg-h { font-size:0.7rem; font-weight:600; color:var(--red2); }
+.sg-l { font-size:0.7rem; font-weight:600; color:var(--green2); }
+.sg-range { font-size:0.65rem; color:var(--muted); }
+.sg-mid { font-size:0.7rem; font-weight:600; color:var(--yellow); }
+.sweep-badge { display:flex; align-items:center; gap:6px; padding:7px 12px; border-radius:6px; font-size:0.71rem; font-weight:600; margin-bottom:6px; }
+.sweep-bear { background:#0f0408; border:1px solid #3a0a14; color:var(--red2); }
+.sweep-bull { background:#030e06; border:1px solid #0a3014; color:var(--green2); }
+.sweep-none { background:#0d0d18; border:1px solid var(--brd2); color:var(--dim); }
+.sweep-note { font-size:0.67rem; color:var(--muted); line-height:1.5; }
+.mid-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:10px; font-size:0.63rem; font-weight:600; margin-top:4px; }
+.mid-above { background:#030e06; border:1px solid #0a3014; color:var(--green2); }
+.mid-below { background:#0f0408; border:1px solid #3a0a14; color:var(--red2); }
+
+.watch-panel { padding:18px 18px; display:flex; flex-direction:column; gap:12px; flex:1; }
+.wbadge { display:inline-block; padding:7px 22px; border-radius:20px; font-size:0.82rem; font-weight:700; letter-spacing:0.8px; align-self:flex-start; }
+.wb-w { background:var(--yellow); color:#000; }
+.wb-a { background:#181825; color:var(--dim); border:1px solid #252535; }
+.watch-note { font-size:0.72rem; color:var(--muted); line-height:1.65; }
+
+/* ── FOOTER ── */
+.footer { background:var(--bg); border-top:1px solid #0f0f20; padding:15px 28px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.footer p { font-size:0.61rem; color:#2d3748; max-width:580px; line-height:1.5; }
+.footer-r { font-size:0.61rem; color:#2d3748; text-align:right; line-height:1.7; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .pair-body { grid-template-columns:1fr; }
+  .chart-col { border-right:none; border-bottom:1px solid var(--brd2); }
+  .pair-hdr { grid-template-columns:1fr auto; gap:12px; }
+  .ph-id { grid-column:1/-1; }
+  .sent-wrap { grid-column:1/-1; }
+}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="mast">
+  <div class="mast-brand">
+    <div class="brand-mark">ZK</div>
+    <div class="brand-text">
+      <h1>ZENKAI Bias Battlecard</h1>
+      <p>Smart Money Concepts &nbsp;·&nbsp; NY Open Prep &nbsp;·&nbsp; March 23, 2026</p>
+    </div>
+  </div>
+  <div class="mast-badges">
+    <span class="mb mb-short">2 × SHORT A+</span>
+    <span class="mb mb-short">2 × SHORT B</span>
+    <span class="mb mb-watch">2 × WATCH / AVOID</span>
+    <span class="mb mb-news">⚠ USD · CAD · JPY News Risk</span>
+    <span class="mb mb-live">● Live Charts</span>
+  </div>
+</div>
+
+<!-- NEWS STRIP -->
+<div class="news-strip">
+  <div class="ns-lbl">📅 Economic Calendar — March 24, 2026</div>
+  <div class="ns-evt">
+    <div class="nse nse-h"><div class="nd nd-h"></div>JPY — Japan CPI (Core) 23:30 UTC · Fcst 2.0% y/y · BOJ policy trigger ⚠</div>
+    <div class="nse nse-h"><div class="nd nd-h"></div>JPY — BOJ Meeting Minutes 23:50 UTC · March 19 meeting (8-1 vote, hawkish dissent) ⚠</div>
+    <div class="nse nse-h"><div class="nd nd-h"></div>USD — Core Durable Goods 12:30 UTC · Affects gold &amp; NAS100</div>
+    <div class="nse nse-m"><div class="nd nd-m"></div>USD — Richmond Fed Manufacturing 14:00 UTC · Secondary USD risk</div>
+    <div class="nse nse-m"><div class="nd nd-m"></div>⚡ Geopolitical — Iran/Middle East · Oil spike risk · impacts JPY, XAUUSD, NAS100</div>
+  </div>
+  <div class="ns-check">Source: BOJ, BEA, RBA, BOE public releases · Verify at <a href="https://www.forexfactory.com/calendar" target="_blank">forexfactory.com</a></div>
+</div>
+
+<!-- POLITICAL / MACRO CONTEXT BANNER -->
+<div style="background:#06060f; border-bottom:2px solid #1a0a2e; padding:10px 28px; display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap;">
+  <div style="font-size:0.62rem; color:#7c3aed; text-transform:uppercase; letter-spacing:1px; flex-shrink:0; padding-top:2px;">🌍 Political &amp; Macro Risk</div>
+  <div style="display:flex; flex-wrap:wrap; gap:8px; flex:1;">
+    <div style="background:#0a0318; border:1px solid #2d1060; border-radius:6px; padding:5px 11px; font-size:0.66rem; color:#c4b5fd; max-width:260px;">
+      <strong style="color:#a78bfa;">GBPJPY / NZDJPY — JPY Risk ⚠</strong><br>
+      BOJ held at 0.75% (30yr high). Tonight: CPI + Minutes. Hawkish dissent (Takata voted for hike). Flash PMI slowed to 52.5 → JPY could spike on hawkish minutes. Short GBPJPY setup at supply aligns — but be aware of whipsaw volatility around 23:50 UTC.
+    </div>
+    <div style="background:#0a1800; border:1px solid #1a3a00; border-radius:6px; padding:5px 11px; font-size:0.66rem; color:#86efac; max-width:260px;">
+      <strong style="color:#4ade80;">XAUUSD — Safe Haven + Oil Risk</strong><br>
+      Iran/Middle East conflict driving oil spike → imported inflation for Japan, Europe. Gold benefiting as safe haven. Technical setup is bearish (London High swept) but fundamental tailwind is bullish. Risk: news escalation could invalidate short — size accordingly.
+    </div>
+    <div style="background:#0a0a00; border:1px solid #3a3000; border-radius:6px; padding:5px 11px; font-size:0.66rem; color:#fde68a; max-width:260px;">
+      <strong style="color:#fbbf24;">AUDCAD — Conflicting Fundamentals ⚠</strong><br>
+      RBA HIKED to 4.10% in March (hawkish AUD). CAD employment -84k in Feb (weak CAD). These fundamentals lean AUDCAD higher — cuts against the short technical setup. Short only on strong M15 confirmation. Watch today's USD Durable Goods for CAD correlation.
+    </div>
+    <div style="background:#000a18; border:1px solid #00204a; border-radius:6px; padding:5px 11px; font-size:0.66rem; color:#93c5fd; max-width:260px;">
+      <strong style="color:#60a5fa;">NAS100 — Geopolitical Catalyst</strong><br>
+      Iran de-escalation talks drove +1.30% rally. BOE held at 3.75% (GBP stable). RBA hike supports risk-off tone. Counter-trend long only if 24,700–24,888 holds. Core Durable Goods at 12:30 UTC is the key USD catalyst today — miss = selloff risk.
+    </div>
+    <div style="background:#0a0005; border:1px solid #2a0018; border-radius:6px; padding:5px 11px; font-size:0.66rem; color:#fca5a5; max-width:240px;">
+      <strong style="color:#f87171;">EURUSD — Macro Backdrop</strong><br>
+      BOE held 3.75%, ECB commentary low impact. EURUSD bearish structure intact. Middle East energy prices could support EUR inflation = slightly hawkish ECB risk but not imminent. Clean technical setup — main risk is strong USD Durable Goods print reversing USD weakness.
+    </div>
+  </div>
+</div>
+
+<!-- PAIRS CONTAINER -->
+<div id="pairs-root"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>⚠ For educational and informational purposes only. Nothing here constitutes financial advice. Always verify levels on your own charts and apply proper risk management. Sentiment data sourced from Myfxbook &amp; FXSSI — some values may be estimated.</p>
+  <div class="footer-r">
+    Sentiment: Myfxbook · FXSSI &nbsp;|&nbsp; Charts: TradingView<br>
+    Timeframes: M15 entry · H1 structure · H2 bias<br>
+    ZENKAI Battlecard v3 &nbsp;|&nbsp; March 23, 2026
+  </div>
+</div>
+
+<script>
+/* ─── PAIR DATA ─── */
+const PAIRS = [
+  {
+    id:'XAUUSD', tvSym:'OANDA:XAUUSD', color:'#ffd700',
+    name:'Gold / US Dollar', price:'$4,345 (live)',
+    dir:'SHORT', dirCls:'dp-short', rating:5,
+    sent:{ l:62, s:38, note:'62% retail long at supply = contrarian SHORT', cls:'sp-bear' },
+    tags:[['LONDON HIGH SWEPT ⚠','bear'],['BELOW LDN MIDPOINT','bear'],['BEARISH BOS H1','bear'],['62% RETAIL LONG','warn']],
+    session:{
+      asianH:'$4,472', asianL:'$4,154', asianRange:'$318',
+      londonH:'$4,478', londonL:'$4,236', londonMid:'$4,357',
+      sweep:'HIGH', sweepPrice:'$4,496', note:'NY open swept London High ($4,478) to $4,496 — classic liquidity grab, then reversed bearish.',
+      currentVsMid:'BELOW',
+    },
+    supply:[
+      {lbl:'$4,478–4,496', note:'London High + NY sweep zone — key supply'},
+      {lbl:'$4,390–4,450', note:'H1 supply zone — previous decision area'},
+    ],
+    demand:[
+      {lbl:'$4,320–4,350', note:'TP1 — below London midpoint ($4,357)'},
+      {lbl:'$4,250–4,300', note:'TP2 — Asian low area structural support'},
+      {lbl:'$4,154', note:'Asian session low — major liquidity pool'},
+    ],
+    setup:{
+      sl:{p:4510,l:'$4,510'}, entry:{p:4390,l:'$4,370–4,400'},
+      tp1:{p:4300,l:'$4,290–4,310'}, tp2:{p:4220,l:'$4,200–4,240'},
+      min:4150, max:4530, rr1:'2.1:1', rr2:'4.0:1',
+    },
+    conf:'London High was swept to $4,496 at NY open — prime SMC short setup. Look for M15 bearish rejection from the $4,370–4,400 supply zone (retest of the LH sweep area). Price is already below London midpoint ($4,357) confirming bearish bias. Entry on M15 rejection, not before.',
+    inval:'<span>Invalidation:</span> Close above $4,510 (above the NY sweep high). If price reclaims above the sweep level, the liquidity grab failed and bulls are back in control.',
+  },
+  {
+    id:'GBPJPY', tvSym:'FX:GBPJPY', color:'#00c853',
+    name:'British Pound / Japanese Yen', price:'~212.88',
+    dir:'WATCH', dirCls:'dp-watch', rating:4,
+    sent:{ l:53, s:47, note:'53% retail long — mild crowd, approaching supply', cls:'sp-neut' },
+    tags:[['BULLISH BOS H1','bull'],['ADX 60 — TRENDING','info'],['NEAR SUPPLY','warn'],['RSI 66.4','info']],
+    supply:[
+      {lbl:'213.03–213.26', note:'← KEY ZONE — price approaching'},
+      {lbl:'214.00–215.00', note:'Extended supply above'},
+    ],
+    demand:[
+      {lbl:'211.57–211.90', note:'Major demand — Short TP target'},
+      {lbl:'211.00–211.30', note:'Deep structural demand'},
+    ],
+    setup:{
+      sl:{p:213.55,l:'213.55'}, entry:{p:213.125,l:'213.05–213.20'},
+      tp1:{p:212.30,l:'212.20–212.40'}, tp2:{p:211.74,l:'211.57–211.90'},
+      min:211.0, max:214.2, rr1:'1.9:1', rr2:'3.3:1',
+    },
+    conf:'TWO SCENARIOS — Short: M15 bearish rejection (engulfing/pin bar) from 213.03–213.26 with RSI divergence. Long: clean H1 close above 213.30 with momentum, then wait for a pullback retest entry. ADX 60 means breakouts can be explosive — do not pre-load a direction.',
+    inval:'<span>Short invalidated:</span> Close above 213.55. <span>Long invalidated:</span> Failure to hold 213.30 after breakout. JPY news risk today — be aware of volatility.',
+  },
+  {
+    id:'EURUSD', tvSym:'FX:EURUSD', color:'#e2e8f0',
+    name:'Euro / US Dollar', price:'1.16127',
+    dir:'SHORT', dirCls:'dp-short', rating:3,
+    sent:{ l:53, s:47, note:'53% retail long — mild contrarian bear lean', cls:'sp-bear' },
+    tags:[['BEARISH BOS H4','bear'],['S/R FLIP: 1.1572–89','info'],['TARGET: 1.1500','bear'],['BELOW SUPPLY','warn']],
+    supply:[
+      {lbl:'1.1642–1.1663', note:'Major H4 supply zone'},
+      {lbl:'1.1572–1.1589', note:'Broken zone — now acting as resistance'},
+      {lbl:'1.1621', note:'S/R flip — ideal entry trigger area'},
+    ],
+    demand:[
+      {lbl:'1.1600', note:'Immediate — watch for break below'},
+      {lbl:'1.1500', note:'TP1 — psychological level'},
+      {lbl:'1.1410–1.1420', note:'TP2 — structural demand'},
+    ],
+    setup:{
+      sl:{p:1.167,l:'1.1670'}, entry:{p:1.1618,l:'1.1612–1.1625'},
+      tp1:{p:1.15,l:'1.1500'}, tp2:{p:1.1415,l:'1.1410–1.1420'},
+      min:1.135, max:1.172, rr1:'2.3:1', rr2:'3.9:1',
+    },
+    conf:'Ideal trigger: price bounces up to the S/R flip at 1.1621 and rejects with an M15 bearish close. Alternatively, M15 close below 1.1600 confirms the breakdown directly. Avoid entry if price reclaims above 1.1642. Monitor USD Durable Goods today.',
+    inval:'<span>Invalidation:</span> Close above 1.1670. Reclaim of the 1.1572–1.1589 zone = bullish continuation to 1.1767.',
+  },
+  {
+    id:'NAS100', tvSym:'NASDAQ:NDX', color:'#a5b4fc',
+    name:'Nasdaq 100 Index', price:'23,772–24,763 (range)',
+    dir:'WATCH', dirCls:'dp-watch', rating:3,
+    sent:{ l:65, s:35, note:'~65% retail long in downtrend = contrarian bearish', cls:'sp-bear' },
+    tags:[['GEO RALLY +1.30%','info'],['10/12 MAs: SELL','bear'],['APPROACHING SUPPLY','warn'],['COUNTER-TREND RISK','warn']],
+    supply:[
+      {lbl:'25,350–25,400', note:'Key supply zone — do not chase'},
+      {lbl:'26,000+', note:'Major resistance above'},
+    ],
+    demand:[
+      {lbl:'24,700–24,888', note:'Reclaimed today — now acting as support'},
+      {lbl:'24,180', note:'Next support if 24,700 breaks'},
+      {lbl:'23,772', note:'Today\'s session low'},
+    ],
+    watchNote:'COUNTER-TREND LONG WATCH: Iran de-escalation drove a geopolitical +1.30% rally today reclaiming 24,888. If price pulls back to the 24,700–24,888 demand zone and holds on M15, a long continuation toward 25,350 is possible. Do NOT chase the initial pop. Macro MA structure remains bearish (10 of 12 MAs on sell). This is a high-risk counter-trend setup — wait for M15 demand reaction before any entry.',
+  },
+  {
+    id:'AUDCAD', tvSym:'FX:AUDCAD', color:'#cbd5e1',
+    name:'Australian Dollar / Canadian Dollar', price:'0.96026 (−1.04%)',
+    dir:'SHORT', dirCls:'dp-short', rating:3,
+    sent:{ l:58, s:42, note:'~58% retail long while price drops = bearish confluence', cls:'sp-bear' },
+    tags:[['RSI 82 OVERBOUGHT','warn'],['ADX 67.8 STRONG','info'],['-1.04% TODAY','bear'],['WAIT FOR BOUNCE','warn']],
+    supply:[
+      {lbl:'0.9645', note:'Major supply overhead'},
+      {lbl:'0.9610–0.9620', note:'Local supply — ideal bounce entry zone'},
+    ],
+    demand:[
+      {lbl:'0.9550', note:'TP1 target'},
+      {lbl:'0.9500', note:'TP2 — psychological level'},
+      {lbl:'0.9160–0.9190', note:'Deep structural demand'},
+    ],
+    setup:{
+      sl:{p:0.9655,l:'0.9655'}, entry:{p:0.9607,l:'0.9600–0.9615'},
+      tp1:{p:0.955,l:'0.9550'}, tp2:{p:0.95,l:'0.9500'},
+      min:0.945, max:0.971, rr1:'1.2:1', rr2:'2.2:1',
+    },
+    conf:'RSI 82 (extreme overbought) + ADX 67.8 strong + already -1.04% today. DO NOT short blindly into the move. Wait for a relief bounce to 0.9610–0.9620 supply, then look for an M15 bearish rejection candle before entering. CAD Retail Sales news today may add volatility.',
+    inval:'<span>Invalidation:</span> Close above 0.9655. Overbought RSI can persist in strong trends — price confirmation is mandatory.',
+  },
+  {
+    id:'NZDJPY', tvSym:'FX:NZDJPY', color:'#6b7280',
+    name:'New Zealand Dollar / Japanese Yen', price:'~87.20',
+    dir:'AVOID', dirCls:'dp-avoid', rating:2,
+    sent:{ l:55, s:45, note:'~55% retail long — near neutral, no clear edge', cls:'sp-neut' },
+    tags:[['RANGING','gray'],['NO CLEAR BOS','gray'],['LIMITED DATA','gray'],['SKIP TODAY','gray']],
+    supply:[
+      {lbl:'87.74', note:'Current range high'},
+      {lbl:'93.30', note:'Extended resistance'},
+    ],
+    demand:[
+      {lbl:'86.76', note:'Current range low'},
+      {lbl:'92.25', note:'Extended support'},
+    ],
+    watchNote:'RANGING / AVOID: Price trapped between 86.76 and 87.74. NZD shows mild strength vs JPY on M15 (RS: 0.68) but H1 reads neutral. No clean SMC break of structure to build a trade around. BOJ watch could cause sudden JPY moves today. No trade — sit this one out.',
+  },
+];
+
+/* ─── RENDER HELPERS ─── */
+const stars = n =>
+  Array.from({length:5},(_,i)=>`<span class="${i<n?'s-on':'s-off'}">★</span>`).join('');
+
+const sentBar = s => `
+  <div class="sent-wrap">
+    <div class="sent-bar-outer">
+      <div class="sent-track">
+        <div class="sent-l" style="width:${s.l}%">${s.l>16?s.l+'%':''}</div>
+        <div class="sent-s" style="width:${s.s}%">${s.s>16?s.s+'%':''}</div>
+      </div>
+      <div class="sent-nums">
+        <span class="sn-l">▲ ${s.l}% Long</span>
+        <span class="sn-s">${s.s}% Short ▼</span>
+      </div>
+    </div>
+    <div class="sent-pill ${s.cls}">${s.note}</div>
+  </div>`;
+
+function makeSVG(setup) {
+  if (!setup) return '';
+  const {sl,entry,tp1,tp2,min,max} = setup;
+  const W=108,H=282,PL=6,PR=6,PT=22,PB=8;
+  const dH=H-PT-PB, bW=W-PL-PR, R=max-min;
+  const py=p=>PT+((max-p)/R)*dH;
+  const ySL=py(sl.p),yE=py(entry.p),yT1=py(tp1.p),yT2=py(tp2.p);
+
+  const zones=[
+    {y1:Math.max(PT,ySL-4),y2:yE, fill:'rgba(255,50,50,0.14)'},
+    {y1:yE, y2:yT1, fill:'rgba(74,222,128,0.09)'},
+    {y1:yT1, y2:Math.min(H-PB,yT2+4), fill:'rgba(0,200,83,0.14)'},
+  ];
+  const zSVG=zones.map(z=>`<rect x="${PL}" y="${Math.min(z.y1,z.y2)}" width="${bW}" height="${Math.max(1,Math.abs(z.y2-z.y1))}" fill="${z.fill}"/>`).join('');
+
+  const lSVG=[
+    {y:ySL, c:'#ff4444', d:'5,3', w:1.6},
+    {y:yE,  c:'#a5b4fc', d:'none', w:2.2},
+    {y:yT1, c:'#4ade80', d:'5,3', w:1.6},
+    {y:yT2, c:'#00c853', d:'5,3', w:1.6},
+  ].map(l=>`<line x1="${PL}" y1="${l.y}" x2="${PL+bW}" y2="${l.y}" stroke="${l.c}" stroke-width="${l.w}"${l.d!=='none'?` stroke-dasharray="${l.d}"`:''}/>`)
+   .join('');
+
+  const mid=PL+bW/2;
+  return `<svg width="${W}" height="${H}" style="border-radius:8px;background:#07070e;border:1px solid #131325;display:block;overflow:visible;">
+    <rect x="${PL}" y="${PT}" width="${bW}" height="${dH}" rx="3" fill="#09091a"/>
+    ${zSVG}${lSVG}
+    <rect x="${PL}" y="${yE-2.5}" width="${bW}" height="5" rx="2" fill="rgba(165,180,252,0.22)"/>
+    <rect x="${mid-25}" y="${PT-17}" width="50" height="15" rx="7" fill="rgba(255,50,50,0.18)" stroke="#ff4444" stroke-width="0.7"/>
+    <text x="${mid}" y="${PT-7}" fill="#ff4444" font-size="8" font-family="system-ui" text-anchor="middle" font-weight="700">SHORT ▼</text>
+    <text x="${PL-2}" y="${ySL+3}" fill="#ff4444" font-size="7" text-anchor="end" font-family="system-ui">SL</text>
+    <text x="${PL-2}" y="${yE+3}"  fill="#a5b4fc" font-size="7" text-anchor="end" font-family="system-ui">E</text>
+    <text x="${PL-2}" y="${yT1+3}" fill="#4ade80" font-size="7" text-anchor="end" font-family="system-ui">T1</text>
+    <text x="${PL-2}" y="${yT2+3}" fill="#00c853" font-size="7" text-anchor="end" font-family="system-ui">T2</text>
+  </svg>`;
+}
+
+function sessionBlock(s) {
+  if (!s) return '';
+  const sweepClass = s.sweep === 'HIGH' ? 'sweep-bear' : s.sweep === 'LOW' ? 'sweep-bull' : 'sweep-none';
+  const sweepIcon  = s.sweep === 'HIGH' ? '⚠ LONDON HIGH SWEPT' : s.sweep === 'LOW' ? '⚠ LONDON LOW SWEPT' : '✓ No Session Sweep';
+  const midClass   = s.currentVsMid === 'BELOW' ? 'mid-below' : 'mid-above';
+  const midIcon    = s.currentVsMid === 'BELOW' ? '▼ Price below London Mid' : '▲ Price above London Mid';
+  return `
+    <div class="session-block">
+      <div class="session-source">Live Session Data — Crypto.com / XAUTUSD H1 Candles</div>
+      <div class="session-grid">
+        <div class="sg-cell">
+          <div class="sg-label">Asian Session</div>
+          <div class="sg-row">
+            <span class="sg-h">H: ${s.asianH}</span>
+            <span class="sg-l">L: ${s.asianL}</span>
+          </div>
+          <div class="sg-range">Range: ${s.asianRange}</div>
+        </div>
+        <div class="sg-cell">
+          <div class="sg-label">London Session</div>
+          <div class="sg-row">
+            <span class="sg-h">H: ${s.londonH}</span>
+            <span class="sg-l">L: ${s.londonL}</span>
+          </div>
+          <div class="sg-range">Mid: <span class="sg-mid">${s.londonMid}</span></div>
+        </div>
+      </div>
+      <div class="sweep-badge ${sweepClass}">${sweepIcon} ${s.sweep !== 'NONE' ? '→ ' + s.sweepPrice : ''}</div>
+      <div class="sweep-note">${s.note}</div>
+      <div class="mid-badge ${midClass}">${midIcon}</div>
+    </div>`;
+}
+
+function analysisPanel(p) {
+  const supplyHTML = p.supply.map(z=>`
+    <div class="zi zi-supply">${z.lbl}</div>
+    ${z.note?`<div class="zi-note">${z.note}</div>`:''}`).join('');
+  const demandHTML = p.demand.map(z=>`
+    <div class="zi zi-demand">${z.lbl}</div>
+    ${z.note?`<div class="zi-note">${z.note}</div>`:''}`).join('');
+
+  if (!p.setup) return `
+    ${p.session ? sessionBlock(p.session) : ''}
+    <div class="zone-block"><div class="zb-lbl">Supply / Resistance</div>${supplyHTML}</div>
+    <div class="zone-block"><div class="zb-lbl">Demand / Support</div>${demandHTML}</div>
+    <div class="watch-panel">
+      <div class="wbadge ${p.dir==='WATCH'?'wb-w':'wb-a'}">${p.dir}</div>
+      <div class="watch-note">${p.watchNote}</div>
+    </div>`;
+
+  const s=p.setup;
+  return `
+    ${p.session ? sessionBlock(p.session) : ''}
+    <div class="zone-block"><div class="zb-lbl">Supply Zones</div>${supplyHTML}</div>
+    <div class="zone-block"><div class="zb-lbl">Demand Zones</div>${demandHTML}</div>
+    <div class="setup-block">
+      <div class="sb-lbl">Trade Setup</div>
+      <div class="setup-inner">
+        <div>${makeSVG(s)}</div>
+        <div class="lvl-list">
+          <div class="lr lr-sl"><span class="lr-lbl">Stop Loss</span><span class="lr-px">${s.sl.l}</span></div>
+          <div class="lr lr-entry"><span class="lr-lbl">Entry Zone</span><span class="lr-px">${s.entry.l}</span></div>
+          <div class="lr lr-tp1"><span class="lr-lbl">Take Profit 1</span><span class="lr-px">${s.tp1.l}</span></div>
+          <div class="lr lr-tp2"><span class="lr-lbl">Take Profit 2</span><span class="lr-px">${s.tp2.l}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rr-strip">
+      <div class="rr-cell"><div class="rr-val rv-g">${s.rr1}</div><div class="rr-key">R:R → TP1</div></div>
+      <div class="rr-cell"><div class="rr-val rv-g">${s.rr2}</div><div class="rr-key">R:R → TP2</div></div>
+      <div class="rr-cell"><div class="rr-val rv-r">${p.dir}</div><div class="rr-key">Direction</div></div>
+    </div>
+    <div class="conf-block">
+      <div class="cb-lbl">Confirmation</div>
+      <div class="conf-body">${p.conf}</div>
+    </div>
+    <div class="conf-block" style="border-bottom:none;flex:1;">
+      <div class="cb-lbl">Invalidation</div>
+      <div class="inval-body">${p.inval}</div>
+    </div>`;
+}
+
+function renderPair(p) {
+  const tagsHTML = p.tags.map(([t,c])=>`<span class="stag stag-${c}">${t}</span>`).join('');
+  return `
+  <div class="pair-section" id="ps-${p.id}">
+    <div class="pair-hdr" id="ph-${p.id}" onclick="toggle('${p.id}')">
+      <div class="ph-id">
+        <span class="ph-sym" style="color:${p.color}">${p.id}</span>
+        <span class="ph-sub">${p.name}</span>
+        <span class="ph-px">Price: <span>${p.price}</span></span>
+      </div>
+      <div class="ph-center">${sentBar(p.sent)}</div>
+      <div class="ph-right">
+        <span class="stars">${stars(p.rating)}</span>
+        <span class="dir-pill ${p.dirCls}">${p.dir}</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="pair-body" id="pb-${p.id}">
+      <div class="chart-col">
+        <div class="chart-top">
+          <span class="chart-top-lbl">📊 ${p.id} — H1 Live Chart (TradingView)</span>
+        </div>
+        <div class="tv-box" id="tvbox-${p.id}">
+          <div class="tv-loading" id="tvload-${p.id}">Loading chart…</div>
+          <div id="tv-${p.id}" style="width:100%;height:400px;"></div>
+        </div>
+        <div class="smc-tags-bar">${tagsHTML}</div>
+      </div>
+      <div class="analysis-col">${analysisPanel(p)}</div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('pairs-root').innerHTML = PAIRS.map(renderPair).join('');
+
+/* ─── TOGGLE ─── */
+const open = new Set(['XAUUSD','GBPJPY']);
+
+function toggle(id) {
+  const ps = document.getElementById(`ps-${id}`);
+  const ph = document.getElementById(`ph-${id}`);
+  const pb = document.getElementById(`pb-${id}`);
+  if (open.has(id)) {
+    open.delete(id);
+    pb.style.display = 'none';
+    ph.classList.remove('is-open');
+  } else {
+    open.add(id);
+    pb.style.display = 'grid';
+    ph.classList.add('is-open');
+    loadChart(id);
+  }
+}
+
+// Apply initial open
+open.forEach(id => {
+  const ph = document.getElementById(`ph-${id}`);
+  const pb = document.getElementById(`pb-${id}`);
+  if (pb) pb.style.display = 'grid';
+  if (ph) ph.classList.add('is-open');
+});
+
+/* ─── TRADINGVIEW WIDGET LOADING ─── */
+// Uses TradingView.widget() from tv.js — most reliable method for dynamic loading
+const loaded = new Set();
+
+function loadChart(id) {
+  if (loaded.has(id)) return;
+  const pair = PAIRS.find(p=>p.id===id);
+  if (!pair) return;
+
+  function tryCreate() {
+    // Wait until TradingView library is ready
+    if (typeof TradingView === 'undefined' || typeof TradingView.widget !== 'function') {
+      setTimeout(tryCreate, 250);
+      return;
+    }
+    try {
+      new TradingView.widget({
+        container_id:         `tv-${id}`,
+        symbol:               pair.tvSym,
+        interval:             '60',
+        timezone:             'America/New_York',
+        theme:                'dark',
+        style:                '1',
+        locale:               'en',
+        toolbar_bg:           '#07070e',
+        width:                '100%',
+        height:               400,
+        hide_side_toolbar:    true,
+        allow_symbol_change:  false,
+        enable_publishing:    false,
+        save_image:           false,
+        hide_legend:          false,
+        studies:              ['RSI@tv-basicstudies'],
+        overrides: {
+          'paneProperties.background':              '#07070e',
+          'paneProperties.backgroundType':          'solid',
+          'paneProperties.horzGridProperties.color':'#131325',
+          'paneProperties.vertGridProperties.color':'#131325',
+          'scalesProperties.textColor':             '#4b5563',
+          'scalesProperties.backgroundColor':       '#07070e',
+        },
+        loading_screen: { backgroundColor:'#07070e', foregroundColor:'#4b5563' },
+      });
+      loaded.add(id);
+      // Hide loading overlay once widget fires its callback
+      setTimeout(() => {
+        const ld = document.getElementById(`tvload-${id}`);
+        if (ld) ld.style.opacity = '0';
+      }, 1800);
+    } catch(e) {
+      const ld = document.getElementById(`tvload-${id}`);
+      if (ld) ld.textContent = 'Chart unavailable — open TradingView directly.';
+    }
+  }
+  tryCreate();
+}
+
+// Load charts for default-open sections after a short delay
+setTimeout(() => open.forEach(id => loadChart(id)), 300);
+</script>
+</body>
+</html>
