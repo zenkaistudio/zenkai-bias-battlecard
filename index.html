@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZENKAI Bias Battlecard — March 26, 2026</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121e;
+    --card: #1a1a2e;
+    --card-hover: #1e1e38;
+    --border: #2a2a45;
+    --accent: #7b5ea7;
+    --accent2: #5ea7a0;
+    --green: #00c853;
+    --green-dim: rgba(0,200,83,0.12);
+    --red: #ff1744;
+    --red-dim: rgba(255,23,68,0.12);
+    --gold: #ffd700;
+    --gold-dim: rgba(255,215,0,0.10);
+    --neutral: #90a0b7;
+    --neutral-dim: rgba(144,160,183,0.10);
+    --text: #e8eaf6;
+    --text-muted: #6b7a99;
+    --text-dim: #9ba8c0;
+    --star-on: #ffd700;
+    --star-off: #2a2a45;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: linear-gradient(135deg, #0d0d1f 0%, #12122a 60%, #0a1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 32px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(123,94,167,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .brand-logo {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: -1px;
+    flex-shrink: 0;
+  }
+  .brand-text h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    background: linear-gradient(90deg, #ffffff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .brand-text p {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .header-meta {
+    text-align: right;
+  }
+  .header-meta .date {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .header-meta .time-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .header-summary {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+  }
+  .summary-badge {
+    background: rgba(123,94,167,0.18);
+    border: 1px solid rgba(123,94,167,0.35);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #c5b3e0;
+  }
+  .session-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .session-tag {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .session-tag.ny { background: rgba(0,200,83,0.15); color: var(--green); border: 1px solid rgba(0,200,83,0.3); }
+  .session-tag.london { background: rgba(94,167,160,0.12); color: var(--accent2); border: 1px solid rgba(94,167,160,0.3); }
+  .session-tag.asia { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main {
+    padding: 28px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ─── SECTION TITLES ─── */
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── INSTRUMENTS GRID ─── */
+  .instruments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 18px;
+    margin-bottom: 32px;
+  }
+
+  .instrument-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .instrument-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .instrument-card.bullish::before { background: linear-gradient(90deg, var(--green), transparent); }
+  .instrument-card.bearish::before { background: linear-gradient(90deg, var(--red), transparent); }
+  .instrument-card.neutral::before { background: linear-gradient(90deg, var(--neutral), transparent); }
+  .instrument-card.gold-card::before { background: linear-gradient(90deg, var(--gold), transparent); }
+  .instrument-card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .instrument-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .instrument-name {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+  .instrument-class {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .instrument-price {
+    text-align: right;
+  }
+  .price-value {
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .price-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: right;
+    margin-top: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .card-badges {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .bias-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .bias-badge.bullish { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,200,83,0.25); }
+  .bias-badge.bearish { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,23,68,0.25); }
+  .bias-badge.neutral { background: var(--neutral-dim); color: var(--neutral); border: 1px solid rgba(144,160,183,0.25); }
+  .bias-arrow { font-size: 14px; }
+
+  .stars {
+    display: flex;
+    gap: 3px;
+    font-size: 13px;
+  }
+  .star-on { color: var(--star-on); }
+  .star-off { color: var(--star-off); }
+
+  /* BOS badge */
+  .bos-badge {
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .bos-badge.bullish-bos { background: rgba(0,200,83,0.12); color: var(--green); border: 1px solid rgba(0,200,83,0.2); }
+  .bos-badge.bearish-bos { background: rgba(255,23,68,0.12); color: var(--red); border: 1px solid rgba(255,23,68,0.2); }
+  .bos-badge.no-bos { background: var(--neutral-dim); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* ─── LEVELS SECTION ─── */
+  .levels-section {
+    margin-bottom: 14px;
+  }
+  .levels-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .level-box {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+  }
+  .level-box-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .level-box-label.supply { color: #ff6b6b; }
+  .level-box-label.demand { color: #6bffb0; }
+  .level-box-label.session { color: var(--accent2); }
+  .level-box-label.ifvg { color: var(--gold); }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dot.supply { background: var(--red); }
+  .dot.demand { background: var(--green); }
+  .dot.session { background: var(--accent2); }
+  .dot.ifvg { background: var(--gold); }
+  .level-values {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .level-val {
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-dim);
+    font-weight: 500;
+  }
+
+  /* Session context bar */
+  .session-context {
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .session-context strong { color: var(--accent2); }
+
+  /* ─── TRADE IDEAS SECTION ─── */
+  .trade-section {
+    margin-bottom: 32px;
+  }
+  .trade-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 18px;
+  }
+  .trade-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.2s ease;
+  }
+  .trade-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
+  .trade-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .trade-pair {
+    font-size: 17px;
+    font-weight: 800;
+  }
+  .direction-badge {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .direction-badge.long { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,200,83,0.35); }
+  .direction-badge.short { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,23,68,0.35); }
+  .rr-badge {
+    margin-left: auto;
+    background: rgba(123,94,167,0.15);
+    border: 1px solid rgba(123,94,167,0.35);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #c5b3e0;
+  }
+
+  .level-ladder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ladder-item {
+    background: rgba(0,0,0,0.25);
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+  }
+  .ladder-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .ladder-label.entry { color: var(--accent2); }
+  .ladder-label.sl { color: var(--red); }
+  .ladder-label.tp1 { color: var(--green); }
+  .ladder-label.tp2 { color: #86efac; }
+  .ladder-value {
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .ladder-label.entry + .ladder-value { color: var(--accent2); }
+  .ladder-label.sl + .ladder-value { color: var(--red); }
+  .ladder-label.tp1 + .ladder-value { color: var(--green); }
+  .ladder-label.tp2 + .ladder-value { color: #86efac; }
+
+  .callout {
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+    border: 1px solid;
+  }
+  .callout.confirm {
+    background: rgba(0,200,83,0.06);
+    border-color: rgba(0,200,83,0.2);
+    color: var(--text-dim);
+  }
+  .callout.confirm strong { color: var(--green); }
+  .callout.invalid {
+    background: rgba(255,23,68,0.06);
+    border-color: rgba(255,23,68,0.2);
+    color: var(--text-dim);
+  }
+  .callout.invalid strong { color: var(--red); }
+
+  /* ─── WATCH LIST ─── */
+  .watchlist-section { margin-bottom: 32px; }
+  .watchlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .watch-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: all 0.2s;
+  }
+  .watch-card:hover { border-color: var(--border); background: var(--card-hover); }
+  .watch-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: rgba(144,160,183,0.1);
+  }
+  .watch-content {}
+  .watch-pair { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .watch-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+  .watch-trigger { font-size: 11px; color: var(--accent); margin-top: 4px; font-style: italic; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 20px 32px;
+    margin-top: 8px;
+  }
+  .footer-grid {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .footer-item {
+    flex: 1;
+    min-width: 200px;
+  }
+  .footer-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .footer-value {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .disclaimer {
+    font-size: 10px;
+    color: var(--text-muted);
+    max-width: 1400px;
+    margin: 12px auto 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* ─── DATA FRESHNESS ALERT ─── */
+  .data-alert {
+    background: rgba(255,215,0,0.06);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #c9a800;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 700px) {
+    .header, .main { padding: 18px 16px; }
+    .footer { padding: 16px; }
+    .instruments-grid, .trade-grid, .watchlist-grid {
+      grid-template-columns: 1fr;
+    }
+    .header-top { flex-direction: column; }
+    .header-meta { text-align: left; }
+  }
+
+  /* Pulse animation for live indicator */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .live-dot {
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+    margin-right: 4px;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-logo">ZK</div>
+      <div class="brand-text">
+        <h1>ZENKAI BIAS BATTLECARD</h1>
+        <p>Smart Money Concepts · Pre-Market Briefing</p>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="date">📅 Thursday, March 26, 2026</div>
+      <div class="time-note"><span class="live-dot"></span>Pre-NY Open · Generated ~8:30 AM ET</div>
+    </div>
+  </div>
+  <div class="header-summary">
+    <span class="summary-badge">🎯 4 of 6 instruments showing actionable setups</span>
+    <div class="session-tags">
+      <span class="session-tag asia">Asia Closed</span>
+      <span class="session-tag london">London Active</span>
+      <span class="session-tag ny">NY Opens 9:30 ET</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ MAIN -->
+<div class="main">
+
+  <div class="data-alert">
+    ⚠️ <span>Data sourced from live web queries at pre-NY open. Session highs/lows are approximate based on available price data. Verify exact levels on your platform before trading.</span>
+  </div>
+
+  <!-- ─── INSTRUMENT OVERVIEW CARDS ─── -->
+  <div class="section-title">Instrument Overview</div>
+  <div class="instruments-grid">
+
+    <!-- ╔═════════════╗ XAUUSD -->
+    <div class="instrument-card gold-card">
+      <div class="card-top">
+        <div class="instrument-label">
+          <div class="instrument-name" style="color: var(--gold);">XAUUSD</div>
+          <div class="instrument-class">Commodities · Gold</div>
+        </div>
+        <div class="instrument-price">
+          <div class="price-value" style="color: var(--gold);">$4,418.72</div>
+          <div class="price-label">Spot Price</div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <div class="bias-badge bullish"><span class="bias-arrow">⬆</span> Bullish</div>
+        <div class="stars">
+          <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span>
+        </div>
+        <div class="bos-badge bullish-bos">↑ BOS Bullish</div>
+      </div>
+      <div class="levels-section">
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label supply"><span class="dot supply"></span>Supply Zone</div>
+            <div class="level-values">
+              <div class="level-val">$4,576 – $4,645</div>
+              <div class="level-val">$4,701 – $4,760</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label demand"><span class="dot demand"></span>Demand Zone</div>
+            <div class="level-values">
+              <div class="level-val">$4,405 – $4,423 ⭐</div>
+              <div class="level-val">$4,313 – $4,374</div>
+            </div>
+          </div>
+        </div>
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label session"><span class="dot session"></span>Session Range</div>
+            <div class="level-values">
+              <div class="level-val">Asia H: ~$4,460</div>
+              <div class="level-val">London Low: ~$4,405</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label ifvg"><span class="dot ifvg"></span>IFVG Zone</div>
+            <div class="level-values">
+              <div class="level-val">$4,440 – $4,504</div>
+              <div class="level-val">(Gap to fill)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-context">
+        <strong>Session Context:</strong> London swept down into the demand zone at $4,405–$4,423. Price pulled back from Asian high of ~$4,460. Current price sits <strong>within</strong> the London low demand zone — key NY open level.
+      </div>
+    </div>
+
+    <!-- ╔═════════════╗ EURUSD -->
+    <div class="instrument-card bearish">
+      <div class="card-top">
+        <div class="instrument-label">
+          <div class="instrument-name" style="color: #7ecef4;">EURUSD</div>
+          <div class="instrument-class">Forex · Major</div>
+        </div>
+        <div class="instrument-price">
+          <div class="price-value" style="color: #7ecef4;">1.1530</div>
+          <div class="price-label">Exchange Rate</div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <div class="bias-badge bearish"><span class="bias-arrow">⬇</span> Bearish</div>
+        <div class="stars">
+          <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span>
+        </div>
+        <div class="bos-badge bearish-bos">↓ BOS Bearish</div>
+      </div>
+      <div class="levels-section">
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label supply"><span class="dot supply"></span>Supply Zone</div>
+            <div class="level-values">
+              <div class="level-val">1.1572 – 1.1589 ⭐</div>
+              <div class="level-val">1.1626 – 1.1648</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label demand"><span class="dot demand"></span>Demand Zone</div>
+            <div class="level-values">
+              <div class="level-val">1.1480 – 1.1500</div>
+              <div class="level-val">1.1410 – 1.1430</div>
+            </div>
+          </div>
+        </div>
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label session"><span class="dot session"></span>Session Range</div>
+            <div class="level-values">
+              <div class="level-val">London H: ~1.1572</div>
+              <div class="level-val">50-MA: ~1.1525</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label ifvg"><span class="dot ifvg"></span>IFVG Watch</div>
+            <div class="level-values">
+              <div class="level-val">1.1500 – 1.1572</div>
+              <div class="level-val">(Imbalance area)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-context">
+        <strong>Session Context:</strong> Euro <strong>failed to settle above</strong> resistance B at 1.1572–1.1589 during London. Short-term downtrend confirmed below this supply zone. 50-MA support at ~1.1525 acting as next pivot.
+      </div>
+    </div>
+
+    <!-- ╔═════════════╗ GBPJPY -->
+    <div class="instrument-card bullish">
+      <div class="card-top">
+        <div class="instrument-label">
+          <div class="instrument-name" style="color: #b48cff;">GBPJPY</div>
+          <div class="instrument-class">Forex · Cross</div>
+        </div>
+        <div class="instrument-price">
+          <div class="price-value" style="color: #b48cff;">212.866</div>
+          <div class="price-label">Exchange Rate</div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <div class="bias-badge bullish"><span class="bias-arrow">⬆</span> Bullish</div>
+        <div class="stars">
+          <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span>
+        </div>
+        <div class="bos-badge bullish-bos">↑ BOS Bullish</div>
+      </div>
+      <div class="levels-section">
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label supply"><span class="dot supply"></span>Supply Zone</div>
+            <div class="level-values">
+              <div class="level-val">213.80 – 214.00 ⭐</div>
+              <div class="level-val">214.50 – 215.00</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label demand"><span class="dot demand"></span>Demand Zone</div>
+            <div class="level-values">
+              <div class="level-val">211.80 – 212.00 ⭐</div>
+              <div class="level-val">210.50 – 211.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label session"><span class="dot session"></span>Session Range</div>
+            <div class="level-values">
+              <div class="level-val">Pivot: 212.60</div>
+              <div class="level-val">RSI: 66.4 | ADX: 60</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label ifvg"><span class="dot ifvg"></span>Channel Watch</div>
+            <div class="level-values">
+              <div class="level-val">Ascending channel</div>
+              <div class="level-val">Above EMA21</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-context">
+        <strong>Session Context:</strong> GBPJPY is consolidating above EMA21 within an ascending channel. 12/12 MAs aligned bullish. ADX at 60 confirms strong trend. Price sits between pivot (212.60) and resistance (213.80) — needs a pullback for entry.
+      </div>
+    </div>
+
+    <!-- ╔═════════════╗ NAS100 -->
+    <div class="instrument-card bearish">
+      <div class="card-top">
+        <div class="instrument-label">
+          <div class="instrument-name" style="color: #64b5f6;">NAS100</div>
+          <div class="instrument-class">Index · US Tech</div>
+        </div>
+        <div class="instrument-price">
+          <div class="price-value" style="color: #64b5f6;">24,367</div>
+          <div class="price-label">NQ Futures</div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <div class="bias-badge bearish"><span class="bias-arrow">⬇</span> Bearish</div>
+        <div class="stars">
+          <span class="star-on">★</span><span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span>
+        </div>
+        <div class="bos-badge bearish-bos">↓ BOS Bearish</div>
+      </div>
+      <div class="levels-section">
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label supply"><span class="dot supply"></span>Supply Zone</div>
+            <div class="level-values">
+              <div class="level-val">24,500 – 24,700 ⭐</div>
+              <div class="level-val">25,070 – 25,200</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label demand"><span class="dot demand"></span>Demand Zone</div>
+            <div class="level-values">
+              <div class="level-val">24,180 – 23,950 ⭐</div>
+              <div class="level-val">23,730 – 23,500</div>
+            </div>
+          </div>
+        </div>
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label session"><span class="dot session"></span>Session Range</div>
+            <div class="level-values">
+              <div class="level-val">Key pivot: 24,700</div>
+              <div class="level-val">+0.84% pre-market</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label ifvg"><span class="dot ifvg"></span>IFVG Watch</div>
+            <div class="level-values">
+              <div class="level-val">24,400 – 24,700</div>
+              <div class="level-val">(Resistance ceiling)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-context">
+        <strong>Session Context:</strong> NAS100 trades with elevated volatility below the key resistance ceiling at 24,500–24,700. 11 of 12 MAs signal <strong>Strong Sell</strong>. Bears remain in control while price stays below 24,700. Pre-market bounce of +0.84% may offer short opportunity.
+      </div>
+    </div>
+
+    <!-- ╔═════════════╗ NZDJPY -->
+    <div class="instrument-card neutral">
+      <div class="card-top">
+        <div class="instrument-label">
+          <div class="instrument-name" style="color: var(--neutral);">NZDJPY</div>
+          <div class="instrument-class">Forex · Cross</div>
+        </div>
+        <div class="instrument-price">
+          <div class="price-value" style="color: var(--neutral);">92.494</div>
+          <div class="price-label">Exchange Rate</div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <div class="bias-badge neutral"><span class="bias-arrow">➡</span> Neutral</div>
+        <div class="stars">
+          <span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span><span class="star-off">★</span>
+        </div>
+        <div class="bos-badge no-bos">⟷ No Clear BOS</div>
+      </div>
+      <div class="levels-section">
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label supply"><span class="dot supply"></span>Supply Zone</div>
+            <div class="level-values">
+              <div class="level-val">93.10 – 93.50</div>
+              <div class="level-val">93.80 – 94.05</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label demand"><span class="dot demand"></span>Demand Zone</div>
+            <div class="level-values">
+              <div class="level-val">91.80 – 92.20</div>
+              <div class="level-val">91.00 – 91.50</div>
+            </div>
+          </div>
+        </div>
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label session"><span class="dot session"></span>Daily Range</div>
+            <div class="level-values">
+              <div class="level-val">High: 94.053</div>
+              <div class="level-val">Low: 93.222</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label ifvg"><span class="dot ifvg"></span>Pivot</div>
+            <div class="level-values">
+              <div class="level-val">93.108</div>
+              <div class="level-val">Bearish at pivot</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-context">
+        <strong>Session Context:</strong> NZDJPY shows conflicting timeframe signals — bearish on daily, bullish on weekly/monthly. Price fell from daily highs (~94.05) to 92.494. Consolidating between support and supply. Low probability setup — <strong>avoid for now</strong>.
+      </div>
+    </div>
+
+    <!-- ╔═════════════╗ AUDCAD -->
+    <div class="instrument-card neutral">
+      <div class="card-top">
+        <div class="instrument-label">
+          <div class="instrument-name" style="color: var(--neutral);">AUDCAD</div>
+          <div class="instrument-class">Forex · Cross</div>
+        </div>
+        <div class="instrument-price">
+          <div class="price-value" style="color: var(--neutral);">0.9160</div>
+          <div class="price-label">Exchange Rate</div>
+        </div>
+      </div>
+      <div class="card-badges">
+        <div class="bias-badge neutral"><span class="bias-arrow">➡</span> Neutral</div>
+        <div class="stars">
+          <span class="star-on">★</span><span class="star-on">★</span><span class="star-off">★</span><span class="star-off">★</span><span class="star-off">★</span>
+        </div>
+        <div class="bos-badge no-bos">⟷ Consolidating</div>
+      </div>
+      <div class="levels-section">
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label supply"><span class="dot supply"></span>Supply Zone</div>
+            <div class="level-values">
+              <div class="level-val">0.9170 – 0.9190</div>
+              <div class="level-val">0.9200+</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label demand"><span class="dot demand"></span>Demand Zone</div>
+            <div class="level-values">
+              <div class="level-val">0.9120 – 0.9140</div>
+              <div class="level-val">0.9100</div>
+            </div>
+          </div>
+        </div>
+        <div class="levels-row">
+          <div class="level-box">
+            <div class="level-box-label session"><span class="dot session"></span>Pivot</div>
+            <div class="level-values">
+              <div class="level-val">Pivot: 0.9160</div>
+              <div class="level-val">RSI: 82.13 ⚠️</div>
+            </div>
+          </div>
+          <div class="level-box">
+            <div class="level-box-label ifvg"><span class="dot ifvg"></span>ADX Signal</div>
+            <div class="level-values">
+              <div class="level-val">ADX: 67.84</div>
+              <div class="level-val">Strong but fading?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="session-context">
+        <strong>Session Context:</strong> AUDCAD is <strong>overbought</strong> (RSI 82.13) with bearish pressure below the 0.9160 pivot. Despite strong ADX (67.84), the overbought reading and tight range suggest exhaustion. Only 1 factor present — <strong>skip for today</strong>.
+      </div>
+    </div>
+
+  </div><!-- end instruments-grid -->
+
+  <!-- ─── TRADE IDEAS ─── -->
+  <div class="section-title">Trade Ideas (Rated 3+)</div>
+  <div class="trade-section">
+    <div class="trade-grid">
+
+      <!-- XAUUSD LONG -->
+      <div class="trade-card">
+        <div class="trade-header">
+          <span class="trade-pair" style="color: var(--gold);">XAUUSD</span>
+          <div class="direction-badge long">⬆ Long</div>
+          <div class="rr-badge">R:R ≈ 1:3.1</div>
+        </div>
+        <div class="level-ladder">
+          <div class="ladder-item">
+            <div class="ladder-label entry">Entry Zone</div>
+            <div class="ladder-value">$4,405 – $4,423</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label sl">Stop Loss</div>
+            <div class="ladder-value">$4,373</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp1">Take Profit 1</div>
+            <div class="ladder-value">$4,504</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp2">Take Profit 2</div>
+            <div class="ladder-value">$4,576</div>
+          </div>
+        </div>
+        <div class="callout confirm">
+          <strong>✅ Confirmation:</strong> Wait for M15 bullish rejection candle (hammer / engulfing) inside the $4,405–$4,423 demand zone. Look for BOS on M15 above the most recent swing high before scaling in.
+        </div>
+        <div class="callout invalid">
+          <strong>❌ Invalidation:</strong> Daily close below $4,373 kills the bullish structure. Any strong bearish impulse through the demand zone on high volume — do not counter-trade it.
+        </div>
+      </div>
+
+      <!-- EURUSD SHORT -->
+      <div class="trade-card">
+        <div class="trade-header">
+          <span class="trade-pair" style="color: #7ecef4;">EURUSD</span>
+          <div class="direction-badge short">⬇ Short</div>
+          <div class="rr-badge">R:R ≈ 1:2.2</div>
+        </div>
+        <div class="level-ladder">
+          <div class="ladder-item">
+            <div class="ladder-label entry">Entry Zone</div>
+            <div class="ladder-value">1.1545 – 1.1572</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label sl">Stop Loss</div>
+            <div class="ladder-value">1.1610</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp1">Take Profit 1</div>
+            <div class="ladder-value">1.1480</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp2">Take Profit 2</div>
+            <div class="ladder-value">1.1410</div>
+          </div>
+        </div>
+        <div class="callout confirm">
+          <strong>✅ Confirmation:</strong> Look for bearish M15 rejection at the 1.1572–1.1589 supply zone (resistance B). A bearish engulfing or pin bar with volume confirms the short. Ideal if price returns to the zone on a brief NY open push before reversing.
+        </div>
+        <div class="callout invalid">
+          <strong>❌ Invalidation:</strong> Hourly close above 1.1589 (resistance B) reclaimed with momentum shifts bias neutral. Break and hold above 1.1648 turns bias bullish — exit immediately.
+        </div>
+      </div>
+
+      <!-- GBPJPY LONG -->
+      <div class="trade-card">
+        <div class="trade-header">
+          <span class="trade-pair" style="color: #b48cff;">GBPJPY</span>
+          <div class="direction-badge long">⬆ Long</div>
+          <div class="rr-badge">R:R ≈ 1:2.6</div>
+        </div>
+        <div class="level-ladder">
+          <div class="ladder-item">
+            <div class="ladder-label entry">Entry Zone</div>
+            <div class="ladder-value">212.00 – 212.30</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label sl">Stop Loss</div>
+            <div class="ladder-value">211.30</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp1">Take Profit 1</div>
+            <div class="ladder-value">213.80</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp2">Take Profit 2</div>
+            <div class="ladder-value">215.00</div>
+          </div>
+        </div>
+        <div class="callout confirm">
+          <strong>✅ Confirmation:</strong> Wait for a pullback to the 212.00–212.30 demand zone before entry — price is currently above that level. Look for M15 bullish structure retest of EMA21 as a precision entry trigger. Strong ADX (60) favors the trend continuation.
+        </div>
+        <div class="callout invalid">
+          <strong>❌ Invalidation:</strong> Break below 211.00 (key support) on a close basis negates the ascending channel and bullish structure. Do not enter if price opens NY session directly at resistance (213.80+).
+        </div>
+      </div>
+
+      <!-- NAS100 SHORT -->
+      <div class="trade-card">
+        <div class="trade-header">
+          <span class="trade-pair" style="color: #64b5f6;">NAS100</span>
+          <div class="direction-badge short">⬇ Short</div>
+          <div class="rr-badge">R:R ≈ 1:2.0</div>
+        </div>
+        <div class="level-ladder">
+          <div class="ladder-item">
+            <div class="ladder-label entry">Entry Zone</div>
+            <div class="ladder-value">24,500 – 24,550</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label sl">Stop Loss</div>
+            <div class="ladder-value">24,750</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp1">Take Profit 1</div>
+            <div class="ladder-value">24,180</div>
+          </div>
+          <div class="ladder-item">
+            <div class="ladder-label tp2">Take Profit 2</div>
+            <div class="ladder-value">23,950</div>
+          </div>
+        </div>
+        <div class="callout confirm">
+          <strong>✅ Confirmation:</strong> Pre-market bounce (+0.84%) may push into the 24,500–24,550 supply zone at NY open. Look for H1 bearish rejection or M15 lower high formation within the supply zone. 11 of 12 MAs on sell align with the short thesis.
+        </div>
+        <div class="callout invalid">
+          <strong>❌ Invalidation:</strong> Hourly close above 24,700 (key resistance) on strong volume flips bias short-term bullish. Above 25,200 would signal a full recovery — abandon all shorts.
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end trade-section -->
+
+  <!-- ─── ON WATCH ─── -->
+  <div class="section-title">On Watch (Rated 1–2)</div>
+  <div class="watchlist-section">
+    <div class="watchlist-grid">
+      <div class="watch-card">
+        <div class="watch-icon">🥝</div>
+        <div class="watch-content">
+          <div class="watch-pair" style="color: var(--neutral);">NZDJPY — 92.494</div>
+          <div class="watch-desc">Conflicting signals across timeframes. Daily bearish but weekly/monthly bullish. Price fell from daily highs at 94.05 to 92.494. Pair is range-bound between support and supply.</div>
+          <div class="watch-trigger">Watch for: Clear break above 93.108 pivot with M15 BOS for a potential long setup toward 94.05</div>
+        </div>
+      </div>
+      <div class="watch-card">
+        <div class="watch-icon">🇦🇺</div>
+        <div class="watch-content">
+          <div class="watch-pair" style="color: var(--neutral);">AUDCAD — 0.9160</div>
+          <div class="watch-desc">Overbought RSI at 82.13 with bearish pressure at the 0.9160 pivot. ADX at 67.84 shows strong trend but may be exhausting. Tight daily range — low volatility.</div>
+          <div class="watch-trigger">Watch for: Breakdown below 0.9140 support for a potential short, or RSI reset toward 60 before re-evaluating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<!-- ═══════════════════════════════════════════ FOOTER -->
+<div class="footer">
+  <div class="footer-grid">
+    <div class="footer-item">
+      <div class="footer-label">Timeframes Analysed</div>
+      <div class="footer-value">M15 (Entries) · H1 (Structure) · H2 (Bias) · D1 (Trend Context)</div>
+    </div>
+    <div class="footer-item">
+      <div class="footer-label">Data Sources</div>
+      <div class="footer-value">LiteFinance · Investing.com · FXStreet · Barchart · TradingView · ActionForex</div>
+    </div>
+    <div class="footer-item">
+      <div class="footer-label">Framework</div>
+      <div class="footer-value">Smart Money Concepts: BOS · Supply/Demand · IFVG · Session Sweeps</div>
+    </div>
+    <div class="footer-item">
+      <div class="footer-label">Generated</div>
+      <div class="footer-value">March 26, 2026 · Pre-NY Open (~8:30 AM ET) · ZENKAI Studios</div>
+    </div>
+  </div>
+  <div class="disclaimer">
+    ⚠️ This analysis is generated from publicly available market data and should not be considered financial advice. All setups are potential ideas only — always conduct your own analysis, confirm levels on your platform, and manage risk appropriately. Past price action does not guarantee future results. Trade at your own risk.
+  </div>
+</div>
+
+</body>
+</html>
